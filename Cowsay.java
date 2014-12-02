@@ -51,13 +51,17 @@ class Cowsay {
 
         // Prints out the cow and words
         System.out.print(top + "\n" + line + "\n" + bottom + "\n");
-        switch (animal) {
-            case cow:
-                printCow();
-                break;
-            default:
-                printCow();
-                break;
+        if (animal == null) {
+            printCow();
+        } else {
+            switch (animal) {
+                case cow:
+                    printCow();
+                    break;
+                default:
+                    printCow();
+                    break;
+            }
         }
         System.out.println();
     }
@@ -78,9 +82,43 @@ class Cowsay {
         for (int i = 0; i < words.length; i++) {
             totalLen += words[i].length();
             currentLen += words[i].length() + 1;
+            // cuts words that are longer than 40
+            if (words[i].length() > MAXLENGTH) {
+                if (line.length() > 0) {
+                    for (int j = 0; j < lines.length; j++) {
+                        if (lines[j] == null) {
+                            lines[j] = line;
+                            break;
+                        }
+                    }
+                }
 
+                // Cuts the word up when it becomes over 40 characters
+                StringBuffer word = new StringBuffer(words[i]);
+                while (word.length() > MAXLENGTH) {
+                    String shorterWord = "";
+                    try {
+                        for (int j = 0; j < MAXLENGTH; j++) {
+                            shorterWord += word.charAt(j);
+                        }
+                    } catch (StringIndexOutOfBoundsException e) {
+                    }
+                    try {
+                        for (int j = 0; j < MAXLENGTH; j++) {
+                            word.deleteCharAt(0);
+                        }
+                    } catch (StringIndexOutOfBoundsException e) {
+                    }
+                    for (int j = 0; j < lines.length; j++) {
+                        if (lines[j] == null) {
+                            lines[j] = shorterWord;
+                            break;
+                        }
+                    }
+                }
+                line = word.toString();
             // Check for strings of 40
-            if (currentLen > MAXLENGTH) {
+            } else if (currentLen > MAXLENGTH) {
                 // puts the line in the lines array by searching
                 // for the empty space
                 for (int j = 0; j < lines.length; j++) {
@@ -130,24 +168,18 @@ class Cowsay {
     // Gets the longest length of the array
     public static int longestLine(String[] lines) {
         int lineSize = lines[0].length();
-        try {
-            for (int i = 0; i < lines.length; i++) {
-                if (lines[i].length() > lineSize) {
-                    lineSize = lines[i].length();
-                }
+        for (int i = 0; i < lines.length; i++) {
+            if (lines[i].length() > lineSize) {
+                lineSize = lines[i].length();
             }
-        } catch (NullPointerException e) {
         }
         return lineSize;
     }
     // puts the spaces needed to reach the wanted length
     public static String finalLine(int length, String line) {
         String space = "";
-        try {
-            for (int i = 0; i < length - line.length(); i++) {
-                space += " ";
-            }
-        } catch (NullPointerException e) {
+        for (int i = 0; i < length - line.length(); i++) {
+            space += " ";
         }
         return line + space;
     }
