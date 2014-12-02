@@ -1,6 +1,7 @@
 import java.util.*;
 
 class Cowsay {
+    // Prints out the cow
     static void printCow() {
         System.out.print("        \\   ^__^\n" +
                 "         \\  (oo)\\_______\n" +
@@ -8,15 +9,19 @@ class Cowsay {
                 "                 ||----w |\n" +
                 "                 ||     ||\n");
     }
+    // Max length of a line should be 40
     static int MAXLENGTH = 40;
 
     public static void main(String args[]) {
         int totalLength = 0;
 
+        // Calculates the length of the string inputed
         for (int i = 0; i < args.length; i++) {
             totalLength += args[i].length() + 1;
         }
 
+        // Checks if needed string is one or multiple lines
+        // and calls respective funtion
         if (totalLength > MAXLENGTH) {
             printMultipleLines(args);
         } else {
@@ -30,21 +35,20 @@ class Cowsay {
         String top = " ";
         String bottom = " ";
 
-
         for (int i = 0; i < words.length; i++) {
             totalLen += words[i].length() + 1;
             line += words[i] + " ";
         }
         line += ">";
 
+        // creates the '_' and '-' for the top and bottom layer
         for (int i = 0; i < totalLen + 1; i++) {
             top += "_";
             bottom += "-";
         }
 
-        System.out.print(top + "\n");
-        System.out.print(line + "\n");
-        System.out.print(bottom + "\n");
+        // Prints out the cow and words
+        System.out.print(top + "\n" + line + "\n" + bottom + "\n");
         printCow();
         System.out.println();
     }
