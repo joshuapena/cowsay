@@ -16,18 +16,29 @@ class Cowsay {
     public static void main(String args[]) {
         int totalLength = 0;
         Animal animal = null;
+        String[] words = args;
+
+        /*
+        if (args.length > 0) {
+            words = args;
+        } else {
+            Scanner input = new Scanner(System.in);
+            int 
+            words
+        }
+        */
 
         // Calculates the length of the string inputed
-        for (int i = 0; i < args.length; i++) {
-            totalLength += args[i].length() + 1;
+        for (int i = 0; i < words.length; i++) {
+            totalLength += words[i].length() + 1;
         }
 
         // Checks if needed string is one or multiple lines
         // and calls respective funtion
         if (totalLength > MAXLENGTH) {
-            printMultipleLines(args, totalLength);
+            printMultipleLines(words, totalLength);
         } else {
-            printSingleLine(args, animal);
+            printSingleLine(words, animal);
         }
     }
 
@@ -160,7 +171,7 @@ class Cowsay {
             System.out.print("| " + 
                     finalLine(lineSize, lines[i]) + "|\n");
         }
-        System.out.print("\\ " + lines[lines.length - 1] + "/\n ");
+        System.out.print("\\ " + lines[lines.length - 1] + "/\n");
         System.out.print(bottom + "\n");
         printCow();
     }
