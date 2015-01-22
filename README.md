@@ -1,11 +1,13 @@
-#Cowsay
+#Command Line Programs
 ======
 
-A place where I can place the cowsays written in different languages
+A place where I can place the command line programs I have written.
+Written in Java.
 
-##Version Notes
-
-###Java
+##Current Working Programs
 ======
-* can only read from the command line
-* can read both single and multiple lines
+* cowsay
+
+##In Progress
+======
+* t
