@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Cowsay {
+class jcowsay {
     static enum Animal { cow };
     // Prints out the cow
     static void printCow() {
