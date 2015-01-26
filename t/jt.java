@@ -3,39 +3,81 @@ import java.io.*;
 import java.util.*;
 
 class jt {
-    /*
-    static class node {
-        String value;
-        int id;
-        node link;
-    }
-    */
-
     public static void main (String[] args) {
-        //try {
-        File file = new File(args[0]);
-        //} catch (ArrayIndexOutOfBoundsException error) {
-            //File file = new File("temp.txt");
-        //}
+        File file = null;
+        try {
+            file = new File(args[0]);
+        } catch (ArrayIndexOutOfBoundsException error) {
+            file = new File("temp.txt");
+        }
 
+        // prints out current tasks
         if (args.length == 1) {
             node head = makeList(args[0]);
             readFile(head);
-        } else if (args[1].equals("-r")) {
+        }
+        // removes task
+        else if (args[1].equals("-r")) {
             out.printf("foo%n");
             node head = makeList(args[0]);
             removeItem(Integer.parseInt(args[2]), head);
             readFile(head);
+            writeFile(head, file);
+        } 
+        // adds new task
+        else if (args.length > 2) {
+            node head = makeList(args[0]);
+            addTask(args, head);
+            writeFile(head, file);
+        }
+    }
+
+    static void writeFile(node head, File file) {
+        try {
+            PrintWriter writer = new PrintWriter(file);
+            node curr = head;
+            while (curr != null) {
+                writer.printf("%d %s%n", curr.id, curr.value);
+                curr = curr.link;
+            }
+            writer.close();
+        } catch (FileNotFoundException error) {
+        }
+    }
+
+    /*
+    static void writeFile(File file, String[] args) {
+        try {
+            PrintWriter writer = new PrintWriter(file);
+            for (int i = 1; i < args.length; i++) {
+                writer.printf("%d %s\n", i, args[i]);
+            }
+            writer.close();
+        } catch (FileNotFoundException error) {
+        }
+    }
+    */
+
+    static void addTask(String[] args, node head) {
+        node curr = head;
+        node prev = null;
+        node temp = new node();
+        int taskNum = 0;
+        String taskString = "";
+        while (curr != null) {
+            prev = curr;
+            curr = prev.link;
+            taskNum++;
         }
 
-        // writes to file
-        //writeFile(file, args);
-        
-        // makes list
-        //node head = makeList(args[0]);
+        for (int i = 1; i < args.length; i++) {
+            taskString += args[i];
+        }
 
-        // reads file
-        //readFile(head);
+        temp.id = taskNum;
+        temp.value = taskString;
+        temp.link = null;
+        prev.link = temp;
     }
 
     static void removeItem(int index, node head) {
@@ -76,7 +118,7 @@ class jt {
             while (fileInput.hasNext()) {
                 node temp = new node();
                 temp.id = fileInput.nextInt();
-                temp.value = fileInput.next();
+                temp.value = fileInput.nextLine();
                 temp.link = null;
                 if (tail == null) head = temp;
                             else tail.link = temp;
