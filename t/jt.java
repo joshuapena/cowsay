@@ -19,12 +19,17 @@ class jt {
             readFile(head);
         }
         // removes task
-        else if (args[1].equals("-r")) {
+        else if (args[1].equals("-f") || args[1].equals("-r")) {
             node head = makeList(args[0]);
             head = removeItem(Integer.parseInt(args[2]), head);
             //readFile(head);
             writeFile(head, file);
         } 
+        else if (args[1].equals("-e")) {
+            node head = makeList(args[0]);
+            head = editTask(args, head, Integer.parseInt(args[2]));
+            writeFile(head, file);
+        }
         // adds new task
         else if (args.length > 2) {
             node head = makeList(args[0]);
@@ -79,14 +84,33 @@ class jt {
         prev.link = temp;
     }
 
+    static node editTask(String[] args, node head, int index) {
+        node curr = head;
+
+        while(curr != null) {
+            if (curr.id == index) break;
+
+            curr = curr.link;
+        }
+        if (curr != null) {
+            String taskString = "";
+            for (int i = 3; i < args.length; i++) {
+                taskString += args[i] + " ";
+            }
+            curr.value = taskString;
+        } else {
+            error("not an avaliable task to edit%n");
+        }
+
+        return head;
+    }
+
     static node removeItem(int index, node head) {
         node curr = head;
         node prev = null;
         //for (int i = 0; i < index - 1; i++) {
         while (curr != null) {
-            if (curr.id == index) {
-                break;
-            }
+            if (curr.id == index) break;
 
             prev = curr;
             curr = prev.link;
@@ -95,7 +119,7 @@ class jt {
             if (prev == null) head = curr.link;
                 else          prev.link = curr.link;
         } else {
-            error("not an available index%n");
+            error("not an available task index%n");
         }
 
         return head;
@@ -108,20 +132,6 @@ class jt {
             curr = curr.link;
         }
     }
-
-    /*
-    static void writeFile(File file, String[] args) {
-        try {
-            PrintWriter writer = new PrintWriter(file);
-            for (int i = 1; i < args.length; i++) {
-                writer.printf("%d %s\n", i, args[i]);
-            }
-            writer.close();
-        } catch (FileNotFoundException error) {
-            error("please enter a file to write to%n");
-        }
-    }
-    */
 
     static node makeList(String file) {
         node head = null;

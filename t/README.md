@@ -6,7 +6,7 @@
 ##how to use
 * can list current tasks by typeing 'jt'
 * can add tasks by typing 'jt words_for_task'
-* can remove by typing 'jt -r task_number'
+* can remove finished tasks by typing 'jt -f task_number'
 
 ##notes
 * weird bug that adds spaces whenever writes to file
