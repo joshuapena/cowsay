@@ -9,4 +9,4 @@
 * can remove by typing 'jt -r task_number'
 
 ##notes
-* indexing isn't correctly working
+* weird bug that adds spaces whenever writes to file
