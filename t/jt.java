@@ -43,11 +43,13 @@ class jt {
 
     static void writeFile(node head, File file) {
         try {
+            int taskNum = 1;
             PrintWriter writer = new PrintWriter(file);
             node curr = head;
             while (curr != null) {
-                writer.printf("%d %s%n", curr.id, curr.value);
+                writer.printf("%d %s%n", taskNum, curr.value);
                 curr = curr.link;
+                taskNum++;
             }
             writer.close();
         } catch (FileNotFoundException error) {
@@ -107,6 +109,7 @@ class jt {
         }
     }
 
+    /*
     static void writeFile(File file, String[] args) {
         try {
             PrintWriter writer = new PrintWriter(file);
@@ -118,6 +121,7 @@ class jt {
             error("please enter a file to write to%n");
         }
     }
+    */
 
     static node makeList(String file) {
         node head = null;
