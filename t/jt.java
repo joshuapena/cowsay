@@ -21,14 +21,23 @@ class jt {
         // removes task
         else if (args[1].equals("-f") || args[1].equals("-r")) {
             node head = makeList(args[0]);
-            head = removeItem(Integer.parseInt(args[2]), head);
+            if (args.length <= 2) error("please enter a task to finish%n");
+            try {
+                head = removeItem(Integer.parseInt(args[2]), head);
+            } catch (NumberFormatException error) {
+                error("The ID \"%s\" does not match any task.%n", args[2]);
+            }
             //readFile(head);
             writeFile(head, file);
         } 
         else if (args[1].equals("-e")) {
             node head = makeList(args[0]);
             if (args.length <= 3) error("please enter a string to edit to%n");
-            head = editTask(args, head, Integer.parseInt(args[2]));
+            try {
+                head = editTask(args, head, Integer.parseInt(args[2]));
+            } catch (NumberFormatException error) {
+                error("The ID \"%s\" does not match any task.%n", args[2]);
+            }
             writeFile(head, file);
         }
         // adds new task
