@@ -27,6 +27,7 @@ class jt {
         } 
         else if (args[1].equals("-e")) {
             node head = makeList(args[0]);
+            if (args.length <= 3) error("please enter a string to edit to%n");
             head = editTask(args, head, Integer.parseInt(args[2]));
             writeFile(head, file);
         }
