@@ -3,12 +3,14 @@ import java.io.*;
 import java.util.*;
 
 class jt {
+    static int exit_status = 0;
+    
     public static void main (String[] args) {
         File file = null;
         try {
             file = new File(args[0]);
         } catch (ArrayIndexOutOfBoundsException error) {
-            file = new File("temp.txt");
+            error("please enter a file to write tasks to as first arguement%n");
         }
 
         // prints out current tasks
@@ -18,10 +20,9 @@ class jt {
         }
         // removes task
         else if (args[1].equals("-r")) {
-            out.printf("foo%n");
             node head = makeList(args[0]);
-            removeItem(Integer.parseInt(args[2]), head);
-            readFile(head);
+            head = removeItem(Integer.parseInt(args[2]), head);
+            //readFile(head);
             writeFile(head, file);
         } 
         // adds new task
@@ -30,6 +31,14 @@ class jt {
             addTask(args, head);
             writeFile(head, file);
         }
+
+        exit(exit_status);
+    }
+
+    static void error (String format, Object... args) {
+        err.printf(format, args);
+        exit_status = 1;
+        exit(exit_status);
     }
 
     static void writeFile(node head, File file) {
@@ -42,21 +51,9 @@ class jt {
             }
             writer.close();
         } catch (FileNotFoundException error) {
+            error("please enter a file to write to%n");
         }
     }
-
-    /*
-    static void writeFile(File file, String[] args) {
-        try {
-            PrintWriter writer = new PrintWriter(file);
-            for (int i = 1; i < args.length; i++) {
-                writer.printf("%d %s\n", i, args[i]);
-            }
-            writer.close();
-        } catch (FileNotFoundException error) {
-        }
-    }
-    */
 
     static void addTask(String[] args, node head) {
         node curr = head;
@@ -80,14 +77,26 @@ class jt {
         prev.link = temp;
     }
 
-    static void removeItem(int index, node head) {
+    static node removeItem(int index, node head) {
         node curr = head;
         node prev = null;
-        for (int i = 0; i < index - 1; i++) {
+        //for (int i = 0; i < index - 1; i++) {
+        while (curr != null) {
+            if (curr.id == index) {
+                break;
+            }
+
             prev = curr;
             curr = prev.link;
         }
-        prev.link = curr.link;
+        if (curr != null) {
+            if (prev == null) head = curr.link;
+                else          prev.link = curr.link;
+        } else {
+            error("not an available index%n");
+        }
+
+        return head;
     }
 
     static void readFile(node curr) {
@@ -106,6 +115,7 @@ class jt {
             }
             writer.close();
         } catch (FileNotFoundException error) {
+            error("please enter a file to write to%n");
         }
     }
 
@@ -125,7 +135,7 @@ class jt {
                 tail = temp;
             }
         } catch (FileNotFoundException error) {
-        } catch (ArrayIndexOutOfBoundsException error) {
+            error("please enter a file to write to%n");
         }
 
         return head;
