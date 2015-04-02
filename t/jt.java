@@ -41,7 +41,7 @@ class jt {
             writeFile(head, file);
         }
         // adds new task
-        else if (args.length > 2) {
+        else if (args.length > 1) {
             node head = makeList(args[0]);
             addTask(args, head);
             writeFile(head, file);
